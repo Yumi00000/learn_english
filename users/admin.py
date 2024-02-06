@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import User, Score, UserProgress, UserDictionary
+
+from users.models.score import Score
+from users.models.user import User
+from users.models.user_dictionary import UserDictionary
+from users.models.user_progress import UserProgress
 
 
 class UserAdmin(admin.ModelAdmin):
