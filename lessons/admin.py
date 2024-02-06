@@ -1,9 +1,8 @@
-from django.conf import settings
 
-settings.configure()
 
 from django.contrib import admin
-from lessons.models import Lessons, Questions  # Importing models from the lessons app
+from lessons.models.lessons import Lessons
+from lessons.models.questions import Questions
 
 
 # Custom admin class for Lessons model
