@@ -1,8 +1,5 @@
-
-
 from django.contrib import admin
-from lessons.models.lessons import Lessons
-from lessons.models.questions import Questions
+from .models import Lessons, Questions
 
 
 # Custom admin class for Lessons model
