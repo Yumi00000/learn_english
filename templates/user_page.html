@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+</head>
+<body>
+<form action="/user/" method="POST">
+    {%csrf_token%}
+    <h1>User info</h1>
+    {% for message in messages %}
+    <div>{{ message }}</div>
+    {% endfor %}
+    {{form.as_p}}
+    <input type="submit" value="Change Data">
+    <input type="hidden" name="_method" value="PUT">
+    </form>
+    <form action="/user/logout/" method="POST">
+        {%csrf_token%}
+        <button type="submit">Logout</button>
+    </form>
+    <form action="/user/delete/" method="POST">
+        {%csrf_token%}
+        <button type="submit">Delete User</button>
+    </form>
+</body>
+</html>
