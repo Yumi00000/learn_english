@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse, QueryDict
+from django.http import QueryDict
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
+from scores.models import Score
 from users.forms import LoginForm, UserRegisterForm, UserUpdateForm
 
 
@@ -57,7 +58,6 @@ def logout_handler(request):
     return redirect('/user/login/')
 
 
-
 @login_required(login_url='/user/login/')
 def user_page(request):
     if request.method == 'POST':
@@ -76,7 +76,8 @@ def user_page(request):
     else:
         user = request.user
         form = UserUpdateForm(instance=user)
-    return render(request, 'user_page.html', {'form': form})
+        user_score = Score.objects.filter(user=user.id)
+        return render(request, 'user_page.html', {'form': form, 'user_score': user_score}, )
 
 
 def user_delete(request):

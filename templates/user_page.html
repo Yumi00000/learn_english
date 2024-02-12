@@ -11,17 +11,22 @@
     {% for message in messages %}
     <div>{{ message }}</div>
     {% endfor %}
+    <label>{{user_score.get}}</label>
     {{form.as_p}}
     <input type="submit" value="Change Data">
     <input type="hidden" name="_method" value="PUT">
-    </form>
-    <form action="/user/logout/" method="POST">
-        {%csrf_token%}
-        <button type="submit">Logout</button>
-    </form>
-    <form action="/user/delete/" method="POST">
-        {%csrf_token%}
-        <button type="submit">Delete User</button>
-    </form>
+</form>
+<form action="/user/logout/" method="POST">
+    {%csrf_token%}
+    <button type="submit">Logout</button>
+</form>
+<form action="/user/delete/" method="POST">
+    {%csrf_token%}
+    <button type="submit">Delete User</button>
+</form>
+<form action="/words/" method="GET">
+    {%csrf_token%}
+    <button type="submit">Add new word</button>
+</form>
 </body>
 </html>

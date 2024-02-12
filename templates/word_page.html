@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Page</title>
+</head>
+<body>
+<h1>Word Details</h1>
+<p><strong>Word:</strong>
+
+    <li>{%for info in word%}
+        {{info.word}}
+        {{info.translation}}
+        {{info.transcription}}
+        {{info.transliteration}}
+        {{info.audio}}
+        {%endfor%}
+    </li>
+
+</p>
+</body>
+</html>

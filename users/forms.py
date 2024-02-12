@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-
+from scores.models import Score
 from django import forms
 
 
@@ -18,8 +18,6 @@ class LoginForm(forms.Form):
 
 
 class UserUpdateForm(forms.ModelForm):
-
-
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'password',)
