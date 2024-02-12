@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<form action="/words/" method="POST">
+    {% csrf_token %}
+    <h1>Add new word</h1>
+    {{ form.as_p }}
+    <input type="submit" value="Register">
+</form>
+{% if words %}
+<h2>Word List</h2>
+<ol>
+    {% for word in words %}
+    <li> {{ word.word }}</li>
+    {% endfor %}
+</ol>
+{% endif %}
+</body>
+</html>
