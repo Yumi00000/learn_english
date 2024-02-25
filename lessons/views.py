@@ -9,7 +9,8 @@ from lessons.models import Lessons, Questions
 
 
 def lessons(request):
-    return HttpResponse('lessons')
+    all_lessons = Lessons.objects.all()
+    return render(request, 'all_lessons.html', {'all_lessons': all_lessons})
 
 
 class LessonsView(View):
