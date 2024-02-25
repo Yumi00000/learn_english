@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{%if message%}
+{{message}}
+{%endif%}
+{{word.word}}
+<form action="/words/{{random_id}}/" method="POST">
+    {%csrf_token%}
+    <input type="hidden" name="word_id" value="{{word.id}}">
+    <label>Enter translate:
+        <input type="text" placeholder="user_translate" value="Your answer">
+    </label>
+
+
+    <input type="submit" value="check">
+</form>
+</body>
+</html>

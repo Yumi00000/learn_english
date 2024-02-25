@@ -19,5 +19,10 @@
     {% endfor %}
 </ol>
 {% endif %}
+<form action="/word/{{word.id}}/" method="GET">
+    <label> Word Checker
+        <input type="submit" value="Check your words">
+    </label>
+</form>
 </body>
 </html>
