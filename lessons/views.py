@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views import View
 
 from lessons.models import Lessons, Questions
+from scores.models import Score
 
 
 def lessons(request):
@@ -32,9 +33,13 @@ class LessonsView(View):
         lesson = Lessons.objects.get(id=pk)
         questions = Questions.objects.filter(lesson_id=lesson)
         results = []
+        score = Score.objects.get(user=request.user)
         for question in questions:
             selected_answer = request.POST.get(f'questions_{question.id}')
             is_correct = True if selected_answer == question.correct_answer else False
+            if is_correct:
+                score.value += 5
+                score.save()
             result_text = (f"{question.question} for your answer is: {selected_answer}"
                            f", correct answer is {question.correct_answer}; {is_correct}")
 

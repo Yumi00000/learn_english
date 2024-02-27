@@ -25,6 +25,8 @@ def register(request):
                                             first_name=form.cleaned_data['first_name'],
                                             last_name=form.cleaned_data['last_name'])
             user.save()
+            score = Score.objects.create(user=user, value=0)
+            score.save()
             return redirect('/user/login/')
         else:
             return render(request, 'register.html', {'form': form})
@@ -76,7 +78,7 @@ def user_page(request):
     else:
         user = request.user
         form = UserUpdateForm(instance=user)
-        user_score = Score.objects.filter(user=user.id)
+        user_score = Score.objects.get(user=user)
         return render(request, 'user_page.html', {'form': form, 'user_score': user_score}, )
 
 

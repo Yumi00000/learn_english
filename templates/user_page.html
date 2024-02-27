@@ -11,7 +11,8 @@
     {% for message in messages %}
     <div>{{ message }}</div>
     {% endfor %}
-    <label>{{user_score.get}}</label>
+    <label>{{user_score.value}}</label>
+
     {{form.as_p}}
     <input type="submit" value="Change Data">
     <input type="hidden" name="_method" value="PUT">

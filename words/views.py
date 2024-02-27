@@ -3,6 +3,8 @@ import random
 from django.contrib import messages
 import requests
 from django.shortcuts import render, redirect, HttpResponse
+
+from scores.models import Score
 from .forms import AddWordForm
 from .models import UserDictionary
 
@@ -52,6 +54,9 @@ def word_page(request, pk):
         test_word_in_db = UserDictionary.objects.get(id=test_word_id, user=request.user)
         if test_word_in_db.translation == test_translation:
             message = 'Word is correct'
+            score = Score.objects.get(user=request.user)
+            score.value += 1
+            score.save()
         else:
             message = 'Word is not correct'
     all_user_words = UserDictionary.objects.filter(user=request.user).all()
