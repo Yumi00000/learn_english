@@ -1,5 +1,8 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
+
+from scores.models import Score
 
 
 def top_scores(request):
-    return HttpResponse('Top scores:')
+    score = Score.objects.order_by('-value').all()
+    return render(request, 'top_score.html', {'score': score})

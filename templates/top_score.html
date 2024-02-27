@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Score List</title>
+</head>
+<body>
+{%for score in score%}
+{{score.value}}
+{{score.user}}
+<br>
+{%endfor%}
+</body>
+</html>
