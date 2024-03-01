@@ -1,8 +1,7 @@
 import random
 
-from django.contrib import messages
 import requests
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 
 from scores.models import Score
 from .forms import AddWordForm
@@ -10,12 +9,15 @@ from .models import UserDictionary
 
 api_url = "https://655.mtis.workers.dev/translate"
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='/user/login/')
 def words(request):
     if request.method == "GET":
         form = AddWordForm()
-        words = UserDictionary.objects.filter(user=request.user.id).all()
-        return render(request, 'add_word.html', {'form': form, 'words': words})
+        all_words = UserDictionary.objects.filter(user=request.user)
+        return render(request, 'add_word.html', {'form': form, 'words': all_words})
     elif request.method == "POST":
         form = AddWordForm(request.POST)
         if form.is_valid():
@@ -30,12 +32,14 @@ def words(request):
                 data = response.json()
                 translated_text = data['response'].get('translated_text')
 
-                word.translation = translated_text
+                word.translation = str(translated_text).lower()
             else:
                 print("Translated text not found in response")
+
             word.user = request.user
+
             word.save()
-            return redirect('words', pk=word.id)
+            return redirect('/words/', pk=word.id)
 
 
 # def word_page(request, pk):
@@ -51,14 +55,18 @@ def word_page(request, pk):
     if request.method == "POST":
         test_word_id = request.POST.get('word_id')
         test_translation = request.POST.get('user_translate')
+
         test_word_in_db = UserDictionary.objects.get(id=test_word_id, user=request.user)
-        if test_word_in_db.translation == test_translation:
+        print(test_word_in_db.word)
+
+        if test_word_in_db is not None and test_word_in_db.translation == test_translation:
             message = 'Word is correct'
             score = Score.objects.get(user=request.user)
             score.value += 1
             score.save()
         else:
             message = 'Word is not correct'
+
     all_user_words = UserDictionary.objects.filter(user=request.user).all()
     random_word = random.choice(all_user_words)
     random_id = random_word.id
