@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.http import QueryDict
 from django.shortcuts import render, redirect
@@ -54,9 +55,7 @@ def login_handler(request):
 
 
 def logout_handler(request):
-    from django.contrib.auth import logout
-    if request.method == 'POST':
-        logout(request)
+    logout(request)
     return redirect('/user/login/')
 
 
@@ -68,18 +67,18 @@ def user_page(request):
             user = form.save(commit=False)
             if request.POST.get('_method') == 'PUT':
                 put_data = QueryDict(request.POST.urlencode(), mutable=True)
-                # put_data['password'] = form.cleaned_data['password']
+                put_data['password'] = form.cleaned_data['password']
                 user = form.save(commit=False)
-                # user.password = make_password(form.cleaned_data['password'])
+                user.password = make_password(form.cleaned_data['password'])
                 user.save()
             else:
                 user.save()
             return redirect('/user/')
-    else:
-        user = request.user
-        form = UserUpdateForm(instance=user)
-        user_score = Score.objects.get(user=user)
-        return render(request, 'user_page.html', {'form': form, 'user_score': user_score}, )
+
+    user = request.user
+    form = UserUpdateForm(instance=user)
+    user_score = Score.objects.get(user=user)
+    return render(request, 'user_page.html', {'form': form, 'user_score': user_score}, )
 
 
 def user_delete(request):

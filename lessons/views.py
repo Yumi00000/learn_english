@@ -1,7 +1,7 @@
 import copy
 import random
 
-from django.http import HttpResponse
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
 
@@ -32,7 +32,6 @@ class LessonsView(View):
     def post(self, request, pk):
         lesson = Lessons.objects.get(id=pk)
         questions = Questions.objects.filter(lesson_id=lesson)
-        results = []
         score = Score.objects.get(user=request.user)
         for question in questions:
             selected_answer = request.POST.get(f'questions_{question.id}')
@@ -40,8 +39,7 @@ class LessonsView(View):
             if is_correct:
                 score.value += 5
                 score.save()
-            result_text = (f"{question.question} for your answer is: {selected_answer}"
-                           f", correct answer is {question.correct_answer}; {is_correct}")
+            messages.success(request, f"{question.question} for your answer is: {selected_answer}"
+                                          f", correct answer is {question.correct_answer}; {is_correct}")
 
-            results.append(result_text)
-        return render(request, 'lesson_answers.html', {"results": results})
+        return render(request, 'lesson_answers.html')
